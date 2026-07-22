@@ -1,0 +1,4 @@
+/target/
+/kernel/target/
+/tools/image-builder/target/
+/build/

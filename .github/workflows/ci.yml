@@ -1,0 +1,64 @@
+name: Moon OS CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  build-and-boot-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust stable + bare-metal target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-none
+
+      - name: Install Rust nightly (required by the bootloader crate's build script)
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rust-src, llvm-tools-preview
+
+      - name: Install QEMU
+        run: sudo apt-get update && sudo apt-get install -y qemu-system-x86 ovmf
+
+      - name: Build kernel
+        run: cargo build --release --target x86_64-unknown-none
+        working-directory: kernel
+
+      - name: Build image builder
+        run: cargo +nightly build --release
+        working-directory: tools/image-builder
+
+      - name: Package disk images
+        run: |
+          ./tools/image-builder/target/release/moon-image-builder \
+            kernel/target/x86_64-unknown-none/release/moon-kernel \
+            build/images
+
+      - name: Boot-test in QEMU (BIOS) and check serial log
+        run: |
+          timeout 15 qemu-system-x86_64 \
+            -drive format=raw,file=build/images/moon-os-bios.img \
+            -display none -serial file:serial-bios.log -no-reboot -m 256M || true
+          cat serial-bios.log
+          grep -q "entering idle loop" serial-bios.log
+
+      - name: Boot-test in QEMU (UEFI/OVMF) and check serial log
+        run: |
+          OVMF_PATH=$(find /usr/share -iname 'OVMF.fd' | head -n1)
+          timeout 15 qemu-system-x86_64 \
+            -bios "${OVMF_PATH}" \
+            -drive format=raw,file=build/images/moon-os-uefi.img \
+            -display none -serial file:serial-uefi.log -no-reboot -m 256M || true
+          cat serial-uefi.log
+          grep -q "entering idle loop" serial-uefi.log
+
+      - name: Upload disk images
+        uses: actions/upload-artifact@v4
+        with:
+          name: moon-os-images
+          path: build/images/

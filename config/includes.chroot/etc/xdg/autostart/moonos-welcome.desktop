@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=MoonOS Welcome
+Name[ja]=MoonOSへようこそ
+Comment=Open the MoonOS welcome screen
+Exec=moonos-welcome
+Icon=moonos
+Terminal=false
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

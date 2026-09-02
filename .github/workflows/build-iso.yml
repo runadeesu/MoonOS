@@ -22,10 +22,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Restore executable permissions
         run: chmod +x auto/config scripts/*.sh config/hooks/live/*.hook.chroot config/includes.chroot/usr/local/bin/*
-      - name: Install build tools
-        run: sudo sh ./scripts/install-build-deps.sh
-      - name: Build MoonOS
-        run: sudo sh ./scripts/build.sh
+      - name: Build MoonOS in Debian 13
+        run: |
+          docker run --rm --privileged \
+            -v "$PWD:/work" -w /work debian:trixie \
+            sh -c './scripts/install-build-deps.sh && ./scripts/build.sh'
       - name: Verify checksum
         run: sha256sum -c dist/MoonOS-0.1-amd64.iso.sha256
       - name: Upload ISO

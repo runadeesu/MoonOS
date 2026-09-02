@@ -53,7 +53,7 @@ printf 'sendkey ret\n' | socat - "UNIX-CONNECT:$monitor_socket" >/dev/null
 echo 'Selected the default MoonOS live boot entry.'
 
 elapsed=15
-for capture_at in 45 105 180; do
+for capture_at in 45 105 180 240 300 360; do
   wait_for=$((capture_at - elapsed))
   sleep "$wait_for"
   elapsed="$capture_at"
@@ -63,6 +63,11 @@ for capture_at in 45 105 180; do
     exit 1
   fi
 
+  # Keep the virtual display awake while the live desktop is settling.  A
+  # harmless Shift key also dismisses a blanked screen without opening apps.
+  printf 'sendkey shift\n' | socat - "UNIX-CONNECT:$monitor_socket" >/dev/null
+  sleep 2
+
   ppm="$test_dir/moonos-boot-${capture_at}s.ppm"
   png="dist/moonos-boot-${capture_at}s.png"
   printf 'screendump %s\n' "$ppm" | socat - "UNIX-CONNECT:$monitor_socket" >/dev/null
@@ -71,4 +76,4 @@ for capture_at in 45 105 180; do
   echo "Captured $png"
 done
 
-echo 'MoonOS remained running for 180 seconds under QEMU.'
+echo 'MoonOS remained running for 360 seconds under QEMU.'

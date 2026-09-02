@@ -1,0 +1,37 @@
+name: Build MoonOS ISO
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'auto/**'
+      - 'config/**'
+      - 'scripts/**'
+      - 'VERSION'
+      - '.github/workflows/build-iso.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build tools
+        run: sudo ./scripts/install-build-deps.sh
+      - name: Build MoonOS
+        run: sudo ./scripts/build.sh
+      - name: Verify checksum
+        run: sha256sum -c dist/MoonOS-0.1-amd64.iso.sha256
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoonOS-0.1-amd64
+          path: |
+            dist/MoonOS-0.1-amd64.iso
+            dist/MoonOS-0.1-amd64.iso.sha256
+          if-no-files-found: error
+          retention-days: 14

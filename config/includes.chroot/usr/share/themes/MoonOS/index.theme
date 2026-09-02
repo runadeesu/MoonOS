@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=MoonOS
+Comment=MoonOS neon glass desktop theme
+GtkTheme=MoonOS
+IconTheme=MoonOS
+CursorTheme=Adwaita
+ButtonLayout=close,minimize,maximize:

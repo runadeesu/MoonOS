@@ -1,0 +1,12 @@
+[Icon Theme]
+Name=MoonOS
+Comment=MoonOS future icon system
+Inherits=Papirus-Dark,hicolor
+Directories=scalable/apps
+
+[scalable/apps]
+Size=48
+Context=Applications
+Type=Scalable
+MinSize=16
+MaxSize=256

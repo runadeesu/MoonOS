@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+sleep 3
+xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s MoonOS || true
+xfconf-query -c xsettings -p /Net/IconThemeName -n -t string -s MoonOS || true
+xfconf-query -c xfwm4 -p /general/theme -n -t string -s Default || true
+xfconf-query -c xfce4-panel -p /panels/panel-2/autohide-behavior -n -t int -s 2 || true
+xfconf-query -c xfce4-panel -p /panels/panel-1/size -s 38 || true
+xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r property; do
+  case "$property" in
+    */last-image) xfconf-query -c xfce4-desktop -p "$property" -s /usr/share/backgrounds/moonos/moonos-wallpaper.svg || true ;;
+    */image-style) xfconf-query -c xfce4-desktop -p "$property" -s 5 || true ;;
+  esac
+done
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ theme MoonOS || true
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ icon-size 58 || true
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ hide-mode none || true
+gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ position bottom || true
+plank >/tmp/moonos-plank.log 2>&1 &
+conky -c /etc/conky/moonos.conf >/tmp/moonos-conky.log 2>&1 &
+sleep 2
+moonos-welcome >/tmp/moonos-hub.log 2>&1 &

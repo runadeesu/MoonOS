@@ -1,0 +1,16 @@
+@define-color moon_bg #070a18;
+@define-color moon_panel rgba(12, 18, 43, 0.93);
+@define-color moon_text #edf5ff;
+@define-color moon_cyan #4ce7ff;
+window, dialog { background-color: @moon_bg; color: @moon_text; }
+headerbar, .titlebar { background-image: linear-gradient(to right, #101936, #16143c); color: @moon_text; border-bottom: 1px solid alpha(@moon_cyan, .45); }
+button { background-image: linear-gradient(to bottom, #1b2856, #121a3a); color: @moon_text; border: 1px solid alpha(@moon_cyan, .38); border-radius: 10px; padding: 7px 12px; }
+button:hover { border-color: @moon_cyan; box-shadow: 0 0 7px alpha(@moon_cyan, .35); }
+entry, textview, treeview { background-color: #0d1430; color: @moon_text; border-color: #283d78; }
+menu, .menu, popover { background-color: #101735; color: @moon_text; border: 1px solid #31467d; }
+menuitem:hover { background-color: #24366c; }
+notebook header { background-color: #0c122b; }
+notebook tab:checked { color: @moon_cyan; border-bottom: 2px solid @moon_cyan; }
+scrollbar slider { background-color: #354d87; border-radius: 8px; }
+.xfce4-panel { background-color: @moon_panel; color: @moon_text; border-bottom: 1px solid alpha(@moon_cyan, .32); }
+tooltip { background-color: #151f45; color: @moon_text; border: 1px solid @moon_cyan; }

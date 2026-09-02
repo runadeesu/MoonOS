@@ -1,20 +1,98 @@
-#!/bin/sh
-set -eu
+#!/usr/bin/python3
+import subprocess
+import gi
 
-choice="$(zenity --list \
-  --title='MoonOS 0.1 Core' \
-  --width=620 --height=400 \
-  --text='MoonOSへようこそ。これはUSBから起動している本物のOSです。' \
-  --column='項目' --column='内容' \
-  'Steam' 'ゲームランチャーを開く' \
-  'Performance' 'ゲーム用パフォーマンス設定' \
-  'System' 'MoonOSのシステム情報' \
-  'Close' 'この画面を閉じる' 2>/dev/null || true)"
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, Gdk
 
-case "$choice" in
-  Steam) moonos-install-steam ;;
-  Performance) moonos-performance ;;
-  System)
-    zenity --info --title='MoonOS System' \
-      --text="$(uname -srmo)\n\n$(grep PRETTY_NAME /etc/os-release | cut -d= -f2- | tr -d '"')" ;;
-esac
+CSS = b"""
+window { background: #080b1b; color: #eef4ff; }
+.shell { background-color: #101735; border: 1px solid #38d8ff; border-radius: 24px; }
+.eyebrow { color: #50e6ff; font-size: 12px; font-weight: 700; }
+.hero { color: #ffffff; font-size: 34px; font-weight: 800; }
+.subtitle { color: #aab8d8; font-size: 14px; }
+.status { color: #7df9c9; font-size: 12px; font-weight: 700; }
+.card { background: rgba(25, 34, 68, 0.94); border: 1px solid rgba(80, 230, 255, 0.42); border-radius: 16px; padding: 16px; }
+.card:hover { background: rgba(37, 54, 99, 0.98); border-color: #c76cff; }
+.card-title { color: #ffffff; font-size: 16px; font-weight: 700; }
+.card-copy { color: #9eaccb; font-size: 11px; }
+.close { background: #171f42; color: #c9d6f5; border-radius: 12px; border: 1px solid #34477d; padding: 8px 18px; }
+"""
+
+APPS = [
+    ("moonos-gamevault", "GAME VAULT", "SteamとWindowsゲームを起動", "moonos-install-steam"),
+    ("moonos-performance", "NEON BOOST", "ゲーム用パフォーマンスモード", "moonos-performance"),
+    ("firefox-esr", "PULSE WEB", "高速ブラウザーを開く", "firefox-esr"),
+    ("moonos-files", "NOVA FILES", "ファイルとドライブを管理", "thunar"),
+    ("utilities-terminal", "CORE TERMINAL", "MoonOSコマンドセンター", "xfce4-terminal"),
+    ("org.xfce.settings.manager", "SYSTEM MATRIX", "ディスプレイや入力を設定", "xfce4-settings-manager"),
+]
+
+class MoonHub(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="MoonOS 0.1 Future Preview")
+        self.set_default_size(940, 590)
+        self.set_position(Gtk.WindowPosition.CENTER)
+        self.set_border_width(18)
+        self.connect("destroy", Gtk.main_quit)
+        provider = Gtk.CssProvider()
+        provider.load_from_data(CSS)
+        Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        shell = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
+        shell.get_style_context().add_class("shell")
+        shell.set_border_width(30)
+        self.add(shell)
+        header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        title_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=5)
+        eyebrow = Gtk.Label(label="MOONOS // COMMAND DECK", xalign=0)
+        eyebrow.get_style_context().add_class("eyebrow")
+        hero = Gtk.Label(label="未来へ、ログイン。", xalign=0)
+        hero.get_style_context().add_class("hero")
+        subtitle = Gtk.Label(label="ゲーム・制作・探索をひとつの軌道へ。", xalign=0)
+        subtitle.get_style_context().add_class("subtitle")
+        for label in (eyebrow, hero, subtitle):
+            title_box.pack_start(label, False, False, 0)
+        header.pack_start(title_box, True, True, 0)
+        status = Gtk.Label(label="●  CORE ONLINE")
+        status.get_style_context().add_class("status")
+        header.pack_end(status, False, False, 0)
+        shell.pack_start(header, False, False, 0)
+        grid = Gtk.Grid(column_spacing=14, row_spacing=14, column_homogeneous=True, row_homogeneous=True)
+        for index, (icon, title, copy, command) in enumerate(APPS):
+            card = Gtk.Button()
+            card.get_style_context().add_class("card")
+            card.set_relief(Gtk.ReliefStyle.NONE)
+            card.connect("clicked", self.launch, command)
+            content = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=14)
+            image = Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.DIALOG)
+            labels = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+            title_label = Gtk.Label(label=title, xalign=0)
+            title_label.get_style_context().add_class("card-title")
+            copy_label = Gtk.Label(label=copy, xalign=0)
+            copy_label.get_style_context().add_class("card-copy")
+            labels.pack_start(title_label, False, False, 0)
+            labels.pack_start(copy_label, False, False, 0)
+            content.pack_start(image, False, False, 0)
+            content.pack_start(labels, True, True, 0)
+            card.add(content)
+            grid.attach(card, index % 2, index // 2, 1, 1)
+        shell.pack_start(grid, True, True, 0)
+        footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        version = Gtk.Label(label="MOONOS 0.1 // LUNA CORE // x86_64", xalign=0)
+        version.get_style_context().add_class("subtitle")
+        close = Gtk.Button(label="ENTER DESKTOP")
+        close.get_style_context().add_class("close")
+        close.connect("clicked", lambda *_: self.destroy())
+        footer.pack_start(version, True, True, 0)
+        footer.pack_end(close, False, False, 0)
+        shell.pack_end(footer, False, False, 0)
+
+    @staticmethod
+    def launch(_button, command):
+        try:
+            subprocess.Popen([command])
+        except OSError:
+            pass
+
+MoonHub().show_all()
+Gtk.main()

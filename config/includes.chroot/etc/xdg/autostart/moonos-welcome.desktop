@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=MoonOS Welcome
-Name[ja]=MoonOSへようこそ
-Comment=Open the MoonOS welcome screen
-Exec=moonos-welcome
+Name=MoonOS Future Desktop
+Name[ja]=MoonOS未来デスクトップ
+Comment=Start the MoonOS visual shell
+Exec=moonos-session-init
 Icon=moonos
 Terminal=false
 OnlyShowIn=XFCE;

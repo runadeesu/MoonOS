@@ -10,6 +10,9 @@ task-japanese
 fonts-noto-cjk
 xfce4
 xfce4-goodies
+plank
+conky-all
+papirus-icon-theme
 lightdm
 lightdm-gtk-greeter
 network-manager
@@ -42,3 +45,5 @@ ca-certificates
 git
 zenity
 power-profiles-daemon
+python3-gi
+gir1.2-gtk-3.0

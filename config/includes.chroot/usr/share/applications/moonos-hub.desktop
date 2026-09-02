@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Moon Hub
+Comment=Open the MoonOS command deck
+Exec=moonos-welcome
+Icon=moonos-hub
+Terminal=false
+Categories=System;Utility;

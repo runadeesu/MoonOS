@@ -4,6 +4,6 @@ Name=Install or Open Steam
 Name[ja]=Steamをインストール／起動
 Comment=Install Steam with 32-bit game compatibility, or open it
 Exec=moonos-install-steam
-Icon=steam
+Icon=moonos-gamevault
 Terminal=false
 Categories=Game;

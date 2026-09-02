@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-chmod 0755 /usr/local/bin/moonos-welcome /usr/local/bin/moonos-performance /usr/local/bin/moonos-install-steam
+chmod 0755 /usr/local/bin/moonos-welcome /usr/local/bin/moonos-session-init /usr/local/bin/moonos-performance /usr/local/bin/moonos-install-steam
 
 mkdir -p /etc/lightdm/lightdm.conf.d
 cat > /etc/lightdm/lightdm.conf.d/50-moonos.conf <<'EOF'
@@ -9,6 +9,17 @@ cat > /etc/lightdm/lightdm.conf.d/50-moonos.conf <<'EOF'
 autologin-user=moon
 autologin-user-timeout=0
 user-session=xfce
+greeter-session=lightdm-gtk-greeter
+EOF
+
+cat > /etc/lightdm/lightdm-gtk-greeter.conf <<'EOF'
+[greeter]
+background=/usr/share/backgrounds/moonos/moonos-wallpaper.svg
+theme-name=MoonOS
+icon-theme-name=MoonOS
+font-name=Noto Sans CJK JP 11
+indicators=~host;~spacer;~clock;~spacer;~session;~power
+clock-format=%H:%M  //  %Y.%m.%d
 EOF
 
 mkdir -p /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml

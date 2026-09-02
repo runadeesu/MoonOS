@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Nova Files
+Comment=Explore files and drives
+Exec=thunar
+Icon=moonos-files
+Terminal=false
+Categories=System;FileManager;

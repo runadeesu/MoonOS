@@ -4,6 +4,6 @@ Name=MoonOS Performance Mode
 Name[ja]=MoonOS パフォーマンスモード
 Comment=Choose a system power profile for gaming
 Exec=moonos-performance
-Icon=applications-games
+Icon=moonos-performance
 Terminal=false
 Categories=Game;Settings;

@@ -12,7 +12,7 @@ choice="$(zenity --list \
   'Close' 'この画面を閉じる' 2>/dev/null || true)"
 
 case "$choice" in
-  Steam) steam || true ;;
+  Steam) moonos-install-steam ;;
   Performance) moonos-performance ;;
   System)
     zenity --info --title='MoonOS System' \

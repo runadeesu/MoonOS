@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+choice="$(zenity --list \
+  --title='MoonOS 0.1 Core' \
+  --width=620 --height=400 \
+  --text='MoonOSへようこそ。これはUSBから起動している本物のOSです。' \
+  --column='項目' --column='内容' \
+  'Steam' 'ゲームランチャーを開く' \
+  'Performance' 'ゲーム用パフォーマンス設定' \
+  'System' 'MoonOSのシステム情報' \
+  'Close' 'この画面を閉じる' 2>/dev/null || true)"
+
+case "$choice" in
+  Steam) steam || true ;;
+  Performance) moonos-performance ;;
+  System)
+    zenity --info --title='MoonOS System' \
+      --text="$(uname -srmo)\n\n$(grep PRETTY_NAME /etc/os-release | cut -d= -f2- | tr -d '"')" ;;
+esac

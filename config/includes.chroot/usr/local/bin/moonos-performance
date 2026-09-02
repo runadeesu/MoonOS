@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+if ! command -v powerprofilesctl >/dev/null 2>&1; then
+  zenity --warning --text='このPCでは電源プロファイルを変更できません。'
+  exit 0
+fi
+
+profile="$(zenity --list --radiolist \
+  --title='MoonOS Performance Mode' \
+  --text='使用する電源モードを選択してください。' \
+  --column='選択' --column='モード' \
+  TRUE 'balanced' FALSE 'performance' FALSE 'power-saver' 2>/dev/null || true)"
+
+[ -n "$profile" ] || exit 0
+powerprofilesctl set "$profile"
+zenity --info --text="電源モードを $profile に変更しました。"

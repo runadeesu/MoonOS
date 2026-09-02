@@ -1,0 +1,19 @@
+#!/bin/sh
+set -eu
+
+lb config noauto \
+  --mode debian \
+  --architectures amd64 \
+  --distribution trixie \
+  --archive-areas "main contrib non-free non-free-firmware" \
+  --binary-images iso-hybrid \
+  --bootloaders "grub-efi,syslinux" \
+  --debian-installer none \
+  --apt-recommends true \
+  --security true \
+  --updates true \
+  --iso-application "MoonOS" \
+  --iso-publisher "MoonOS Project" \
+  --iso-volume "MOONOS_01" \
+  --image-name "moonos-0.1-amd64" \
+  --bootappend-live "boot=live components quiet splash username=moon hostname=moonos locales=ja_JP.UTF-8 keyboard-layouts=jp"

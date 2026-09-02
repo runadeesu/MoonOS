@@ -27,8 +27,24 @@ jobs:
           docker run --rm --privileged \
             -v "$PWD:/work" -w /work debian:trixie \
             sh -c './scripts/install-build-deps.sh && ./scripts/build.sh'
+      - name: Install virtual-machine test tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86 socat netpbm
+      - name: Boot MoonOS and capture screenshots
+        run: sudo sh ./scripts/boot-test.sh
       - name: Verify checksum
         run: sha256sum -c dist/MoonOS-0.1-amd64.iso.sha256
+      - name: Upload boot screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoonOS-0.1-boot-screenshots
+          path: |
+            dist/moonos-boot-*.png
+            dist/moonos-boot-serial.log
+            dist/moonos-qemu.log
+          if-no-files-found: error
+          retention-days: 14
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:

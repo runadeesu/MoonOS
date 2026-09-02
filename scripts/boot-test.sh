@@ -39,7 +39,20 @@ qemu-system-x86_64 \
   -no-reboot >dist/moonos-qemu.log 2>&1 &
 qemu_pid="$!"
 
-elapsed=0
+socket_wait=0
+while [ ! -S "$monitor_socket" ] && [ "$socket_wait" -lt 20 ]; do
+  sleep 1
+  socket_wait=$((socket_wait + 1))
+done
+[ -S "$monitor_socket" ] || { echo 'QEMU monitor did not start.' >&2; exit 1; }
+
+# The generated live-media menu waits for confirmation. Select the default
+# MoonOS live entry just as a user pressing Enter would.
+sleep 15
+printf 'sendkey ret\n' | socat - "UNIX-CONNECT:$monitor_socket" >/dev/null
+echo 'Selected the default MoonOS live boot entry.'
+
+elapsed=15
 for capture_at in 45 105 180; do
   wait_for=$((capture_at - elapsed))
   sleep "$wait_for"

@@ -25,7 +25,6 @@ amd64-microcode
 mesa-vulkan-drivers
 mesa-utils
 vulkan-tools
-steam-installer
 wine
 wine64
 winetricks

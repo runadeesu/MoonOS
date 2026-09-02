@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=MoonOS Performance Mode
+Name[ja]=MoonOS パフォーマンスモード
+Comment=Choose a system power profile for gaming
+Exec=moonos-performance
+Icon=applications-games
+Terminal=false
+Categories=Game;Settings;

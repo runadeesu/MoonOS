@@ -1,0 +1,11 @@
+PRETTY_NAME="MoonOS 0.1 Core"
+NAME="MoonOS"
+VERSION_ID="0.1"
+VERSION="0.1 Core"
+VERSION_CODENAME="luna"
+ID=moonos
+ID_LIKE=debian
+HOME_URL="https://github.com/runadeesu/MoonOS"
+SUPPORT_URL="https://github.com/runadeesu/MoonOS/issues"
+BUG_REPORT_URL="https://github.com/runadeesu/MoonOS/issues"
+LOGO=moonos

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Install or Open Steam
+Name[ja]=Steamをインストール／起動
+Comment=Install Steam with 32-bit game compatibility, or open it
+Exec=moonos-install-steam
+Icon=steam
+Terminal=false
+Categories=Game;

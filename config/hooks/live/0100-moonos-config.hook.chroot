@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-chmod 0755 /usr/local/bin/moonos-welcome /usr/local/bin/moonos-performance
+chmod 0755 /usr/local/bin/moonos-welcome /usr/local/bin/moonos-performance /usr/local/bin/moonos-install-steam
 
 mkdir -p /etc/lightdm/lightdm.conf.d
 cat > /etc/lightdm/lightdm.conf.d/50-moonos.conf <<'EOF'

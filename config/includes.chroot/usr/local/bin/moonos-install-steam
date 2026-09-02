@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+if command -v steam >/dev/null 2>&1; then
+  steam
+  exit 0
+fi
+
+if ! zenity --question --title='Steam Setup' \
+  --text='Steamと32bitゲーム互換パッケージをインストールします。インターネット接続が必要です。続けますか？'; then
+  exit 0
+fi
+
+helper="$(mktemp)"
+trap 'rm -f "$helper"' EXIT INT TERM
+cat > "$helper" <<'EOF'
+#!/bin/sh
+set -eu
+dpkg --add-architecture i386
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y steam-installer wine32:i386
+EOF
+chmod 0700 "$helper"
+
+if pkexec "$helper"; then
+  zenity --info --title='Steam Setup' --text='Steamのインストールが完了しました。'
+  steam || true
+else
+  zenity --error --title='Steam Setup' --text='Steamをインストールできませんでした。ネットワーク接続を確認してください。'
+fi

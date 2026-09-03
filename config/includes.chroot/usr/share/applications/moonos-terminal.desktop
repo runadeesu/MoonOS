@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Core Terminal
+Comment=Open the MoonOS command center
+Exec=xfce4-terminal
+Icon=moonos-terminal
+Terminal=false
+Categories=System;TerminalEmulator;

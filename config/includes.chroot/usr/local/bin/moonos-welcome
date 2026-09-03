@@ -22,15 +22,15 @@ window { background: #080b1b; color: #eef4ff; }
 APPS = [
     ("moonos-gamevault", "GAME VAULT", "SteamとWindowsゲームを起動", "moonos-install-steam"),
     ("moonos-performance", "NEON BOOST", "ゲーム用パフォーマンスモード", "moonos-performance"),
-    ("firefox-esr", "PULSE WEB", "高速ブラウザーを開く", "firefox-esr"),
+    ("moonos-browser", "PULSE WEB", "高速ブラウザーを開く", "firefox-esr"),
     ("moonos-files", "NOVA FILES", "ファイルとドライブを管理", "thunar"),
-    ("utilities-terminal", "CORE TERMINAL", "MoonOSコマンドセンター", "xfce4-terminal"),
-    ("org.xfce.settings.manager", "SYSTEM MATRIX", "ディスプレイや入力を設定", "xfce4-settings-manager"),
+    ("moonos-terminal", "CORE TERMINAL", "MoonOSコマンドセンター", "xfce4-terminal"),
+    ("moonos-settings", "SYSTEM MATRIX", "ディスプレイや入力を設定", "xfce4-settings-manager"),
 ]
 
 class MoonHub(Gtk.Window):
     def __init__(self):
-        super().__init__(title="MoonOS 0.1 Future Preview")
+        super().__init__(title="MoonOS 0.1 // Command Deck")
         self.set_default_size(940, 590)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_border_width(18)

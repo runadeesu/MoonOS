@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=System Matrix
+Comment=Configure MoonOS
+Exec=xfce4-settings-manager
+Icon=moonos-settings
+Terminal=false
+Categories=Settings;System;

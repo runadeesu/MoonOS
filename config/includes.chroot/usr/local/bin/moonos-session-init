@@ -6,6 +6,7 @@ xfconf-query -c xsettings -p /Net/IconThemeName -n -t string -s MoonOS || true
 xfconf-query -c xfwm4 -p /general/theme -n -t string -s Default || true
 xfconf-query -c xfce4-panel -p /panels/panel-2/autohide-behavior -n -t int -s 2 || true
 xfconf-query -c xfce4-panel -p /panels/panel-1/size -s 38 || true
+xfconf-query -c xfce4-desktop -p /desktop-icons/style -n -t int -s 0 || true
 xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r property; do
   case "$property" in
     */last-image) xfconf-query -c xfce4-desktop -p "$property" -s /usr/share/backgrounds/moonos/moonos-wallpaper.svg || true ;;

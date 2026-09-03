@@ -2,10 +2,10 @@
 TopRoundness=18
 BottomRoundness=18
 LineWidth=1
-OuterStrokeColor=72;;231;;255;;90
-FillStartColor=10;;15;;38;;235
-FillEndColor=20;;25;;58;;235
-InnerStrokeColor=166;;108;;255;;65
+OuterStrokeColor=190;;218;;255;;62
+FillStartColor=8;;18;;30;;228
+FillEndColor=18;;33;;50;;228
+InnerStrokeColor=130;;177;;225;;46
 
 [PlankDockTheme]
 HorizPadding=18
@@ -29,4 +29,4 @@ GlowTime=10000
 GlowPulseTime=2000
 UrgentHueShift=150
 ItemMoveTime=450
-BadgeColor=76;;231;;255;;255
+BadgeColor=91;;168;;255;;255

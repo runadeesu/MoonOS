@@ -18,6 +18,5 @@ gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1
 gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ hide-mode none || true
 gsettings set net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/ position bottom || true
 plank >/tmp/moonos-plank.log 2>&1 &
-conky -c /etc/conky/moonos.conf >/tmp/moonos-conky.log 2>&1 &
 sleep 2
 moonos-welcome >/tmp/moonos-hub.log 2>&1 &
